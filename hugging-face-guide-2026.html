@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hugging Face in 2026 — Platform, Transformers v5, Libraries, and Career Growth</title>
+<style>
+  :root {
+    --ink: #1c1e2a;
+    --ink-soft: #4a4d5c;
+    --paper: #ffffff;
+    --paper-2: #f7f6f2;
+    --rule: #dedcd4;
+    --hf-yellow: #ffd21e;
+    --hf-yellow-soft: #fff3b8;
+    --blue: #2b4a9a;
+    --measure: 68ch;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #ecebe6;
+      --ink-soft: #b3b2ab;
+      --paper: #16171d;
+      --paper-2: #1f2028;
+      --rule: #34363f;
+      --hf-yellow-soft: #4a3f10;
+      --blue: #9db3ee;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, .sans {
+    font-family: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: -0.01em;
+  }
+  a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--hf-yellow); outline-offset: 2px; }
+
+  /* ---------- Header ---------- */
+  header.masthead {
+    border-bottom: 6px solid var(--hf-yellow);
+    padding: 3.5rem 1.5rem 2.5rem;
+  }
+  .masthead-inner { max-width: 1120px; margin: 0 auto; }
+  .masthead .kicker {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin: 0 0 1rem;
+  }
+  .masthead h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    margin: 0 0 1.2rem;
+    max-width: 22ch;
+  }
+  .masthead p.lede {
+    font-size: 1.2rem;
+    max-width: 60ch;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .masthead .meta {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Layout ---------- */
+  .page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 960px) {
+    .page { grid-template-columns: 240px minmax(0, 1fr); gap: 4rem; }
+    nav.toc { position: sticky; top: 1.5rem; align-self: start; }
+  }
+  nav.toc {
+    font-family: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+  nav.toc h2 { font-size: 0.85rem; margin: 0 0 0.75rem; color: var(--ink-soft); font-weight: 600; }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--rule); }
+  nav.toc li a {
+    display: block;
+    padding: 0.35rem 0 0.35rem 0.9rem;
+    color: var(--ink);
+    text-decoration: none;
+    margin-left: -2px;
+    border-left: 2px solid transparent;
+  }
+  nav.toc li a:hover { border-left-color: var(--hf-yellow); }
+
+  main { max-width: var(--measure); min-width: 0; }
+  main > section { margin-bottom: 3.5rem; }
+  h2 { font-size: 1.75rem; font-weight: 800; margin: 0 0 1rem; line-height: 1.2; }
+  h3 { font-size: 1.2rem; font-weight: 700; margin: 2rem 0 0.6rem; }
+  h4 { font-size: 1rem; font-weight: 700; margin: 1.4rem 0 0.4rem; }
+  p { margin: 0 0 1rem; }
+  ul, ol { padding-left: 1.4rem; margin: 0 0 1rem; }
+  li { margin-bottom: 0.4rem; }
+  li::marker { color: var(--ink-soft); }
+  strong { font-weight: 700; }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    background: var(--paper-2);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 1rem 0 1.5rem;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  blockquote {
+    margin: 1.2rem 0;
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    border-left: 4px solid var(--hf-yellow);
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  blockquote cite { display: block; font-style: normal; font-size: 0.9rem; margin-top: 0.4rem; }
+  mark { background: var(--hf-yellow-soft); color: inherit; padding: 0 0.15em; }
+
+  /* ---------- TL;DR box ---------- */
+  .tldr {
+    background: var(--paper-2);
+    border-top: 4px solid var(--hf-yellow);
+    padding: 1.4rem 1.6rem 0.6rem;
+    margin-bottom: 3rem;
+  }
+  .tldr h2 { font-size: 1.1rem; margin-bottom: 0.8rem; }
+  .tldr ul { margin-bottom: 0.6rem; }
+
+  /* ---------- Findings ---------- */
+  ol.findings { list-style: none; padding: 0; counter-reset: f; }
+  ol.findings li {
+    counter-increment: f;
+    position: relative;
+    padding-left: 3rem;
+    margin-bottom: 1.1rem;
+  }
+  ol.findings li::before {
+    content: counter(f);
+    position: absolute; left: 0; top: 0.1rem;
+    width: 2rem; height: 2rem;
+    border-radius: 50%;
+    background: var(--hf-yellow);
+    color: #1c1e2a;
+    font-family: "Avenir Next", Avenir, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-weight: 800;
+    display: grid; place-items: center;
+    font-size: 0.95rem;
+  }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+  th, td { text-align: left; vertical-align: top; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 700; border-bottom: 2px solid var(--ink); }
+  tbody tr:hover { background: var(--paper-2); }
+  td:first-child { font-weight: 700; white-space: nowrap; }
+  .chip {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .chip.core { border-color: var(--hf-yellow); background: var(--hf-yellow-soft); color: var(--ink); }
+  .pricing td:nth-child(2) { white-space: nowrap; font-weight: 600; }
+
+  /* ---------- Roadmap ---------- */
+  .roadmap { border-left: 2px solid var(--rule); margin: 1.5rem 0 0 0.6rem; padding-left: 0; list-style: none; }
+  .roadmap > li { position: relative; padding: 0 0 2rem 2rem; }
+  .roadmap > li::before {
+    content: "";
+    position: absolute; left: -9px; top: 0.45rem;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--hf-yellow); border: 3px solid var(--paper);
+  }
+  .roadmap h3 { margin-top: 0; }
+  .roadmap .stage-when { color: var(--ink-soft); font-weight: 400; font-size: 0.95rem; }
+  .roadmap .bench {
+    background: var(--paper-2);
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+    margin-top: 0.6rem;
+  }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    border: 1px solid var(--rule);
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 0;
+    background: var(--paper-2);
+  }
+  .callout h4 { margin-top: 0; }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  @media print {
+    nav.toc { display: none; }
+    .page { grid-template-columns: 1fr; }
+    header.masthead { padding-top: 1rem; }
+    a { color: inherit; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">Research report · September 12, 2026</p>
+    <h1>Hugging Face in 2026: the platform, Transformers v5, the library ecosystem, and your career</h1>
+    <p class="lede">A working map of what Hugging Face offers, how the pieces fit together, and a concrete path for using it for experiments, learning, and building a public portfolio.</p>
+    <p class="meta">Written for a developer with Python and basic ML familiarity who is new to the Hugging Face ecosystem.</p>
+  </div>
+</header>
+
+<div class="page">
+  <nav class="toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#tldr">Summary</a></li>
+      <li><a href="#findings">Key findings</a></li>
+      <li><a href="#platform">1. The platform</a></li>
+      <li><a href="#transformers">2. Transformers</a></li>
+      <li><a href="#libraries">3. The library ecosystem</a></li>
+      <li><a href="#learning">4. Experiments and learning</a></li>
+      <li><a href="#career">5. Career growth</a></li>
+      <li><a href="#alternatives">6. Compared to alternatives</a></li>
+      <li><a href="#roadmap">7. Learning roadmap</a></li>
+      <li><a href="#recommendations">Recommendations</a></li>
+      <li><a href="#caveats">Caveats</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section class="tldr" id="tldr">
+      <h2>Summary</h2>
+      <ul>
+        <li><strong>Hugging Face is the "GitHub of AI."</strong> An open platform hosting 3M+ models, 500K+ datasets, and 1M+ applications used by more than 18 million developers and 200,000+ companies, with a Python library ecosystem (led by Transformers, now at v5) that is the default way most people load, fine-tune, and share ML models. For a Python/ML developer, it is the single highest-leverage ecosystem to learn.</li>
+        <li><strong>Start free and learn by doing.</strong> Run <code>pipeline()</code> inference, take the free HF Learn courses (LLM Course, Agents Course, MCP Course), fine-tune a small model with TRL/PEFT, and publish a model plus a Gradio Space. A public HF profile with real models and Spaces is a live portfolio that hiring managers value more than notebooks.</li>
+        <li><strong>The biggest 2026 development:</strong> on September 2–3, 2026 NVIDIA agreed to acquire Hugging Face for $12.93B (≈$11.9B cash plus up to $1B in employee equity retention), expected to close in the first half of 2027 pending regulatory approval, with public commitments to keep the platform open and compute-agnostic. This does not change how you should learn HF today, but it is the strategic backdrop for the ecosystem's future.</li>
+      </ul>
+    </section>
+
+    <section id="findings">
+      <h2>Key findings</h2>
+      <ol class="findings">
+        <li><strong>Transformers v5 (released December 1, 2025) is a watershed.</strong> It is PyTorch-only (TensorFlow/JAX/Flax support sunset), consolidates tokenizers into a single backend, makes quantization a first-class citizen, and adds <code>transformers serve</code> (an OpenAI-compatible server). HF reports the library is installed more than 3 million times a day via pip, has passed 1.2 billion installs, and supports over 400 architectures with more than 750,000 checkpoints on the Hub. Releases now ship weekly.</li>
+        <li><strong>The platform monetizes through a clean freemium model.</strong> The free tier is generous; PRO is $9/mo, Team $20/user/mo, Enterprise $50/user/mo. Real spend comes from metered compute (Spaces GPU-hours, Inference Endpoints, Inference Providers tokens), not the seat fee.</li>
+        <li><strong>The ecosystem is much broader than Transformers.</strong> Datasets, Tokenizers, Accelerate, PEFT, TRL, Diffusers, Optimum, safetensors, huggingface_hub, Gradio, smolagents, timm, Sentence Transformers, TEI, and more each solve a specific stage of the ML lifecycle. TGI was moved to maintenance mode (Dec 2025) in favor of vLLM/SGLang.</li>
+        <li><strong>HF has bet heavily on robotics and agents.</strong> It created LeRobot (2024), acquired Pollen Robotics (April 2025), and launched smolagents. The Open LLM Leaderboard was retired in March 2025.</li>
+        <li><strong>Free education is a real competitive advantage.</strong> HF Learn offers around 11 free courses with certificates, an Open-Source AI Cookbook, and free compute paths (ZeroGPU, Colab, Kaggle).</li>
+      </ol>
+    </section>
+
+    <section id="platform">
+      <h2>1. The Hugging Face platform</h2>
+
+      <h3>What it is</h3>
+      <p>Hugging Face, Inc. was founded in 2016 by Clément Delangue, Julien Chaumond, and Thomas Wolf. Originally a chatbot company, it pivoted to open-source ML tooling and became the central hub for open AI. Its stated mission is to advance and democratize artificial intelligence through open source and open science.</p>
+      <blockquote>More than 18 million developers, researchers and creators use Hugging Face to share more than 3 million models, 500,000 datasets and 1 million applications. More than 200,000 companies use the platform to discover, evaluate, customize and deploy AI.
+        <cite>— NVIDIA acquisition announcement, Jensen Huang, September 3, 2026</cite>
+      </blockquote>
+
+      <h3>The Hub</h3>
+      <p>The Hub is a git-based repository platform (git-LFS and Xet for large files) with three asset types:</p>
+      <ul>
+        <li><strong>Models</strong> — versioned repos with model cards (README documentation), weights (usually safetensors), configs, and metadata tags. Inference widgets and a Deploy button appear on model pages.</li>
+        <li><strong>Datasets</strong> — versioned repos with dataset cards, an interactive Data Studio viewer, and streaming support via the <code>datasets</code> library.</li>
+        <li><strong>Spaces</strong> — hosted demo apps built with Gradio, Streamlit, or Docker (static HTML also supported), with custom Docker images, git integration, and secrets management.</li>
+      </ul>
+      <p>Community and collaboration features mirror GitHub: organizations, collections, discussions, pull requests, gated repos, and access controls. Every repo carries a license field; licensing spans permissive (Apache-2.0, MIT), open-weight-with-conditions (Llama community license, Gemma terms), and others. Commercial-use compliance is the user's responsibility.</p>
+
+      <h3>Paid and enterprise offerings</h3>
+      <p>Pricing verified mid-2026; confirm current figures at huggingface.co/pricing.</p>
+      <div class="table-wrap">
+      <table class="pricing">
+        <thead><tr><th>Offering</th><th>Price</th><th>What you get</th></tr></thead>
+        <tbody>
+          <tr><td>Free</td><td>$0</td><td>Public/private repos, free CPU Spaces, ZeroGPU with a daily quota (~3.5 min/day authenticated), limited Inference Provider credits.</td></tr>
+          <tr><td>PRO</td><td>$9 / mo</td><td>8× ZeroGPU quota (up to 25 min of H200 compute per day; over-quota at $1 per 10 min), ZeroGPU xlarge tier (full H200, 141GB), 1TB private storage, Dev Mode, up to 10 ZeroGPU Spaces, ~2M monthly Inference Provider credits, ability to create Gradio/Docker GPU Spaces.</td></tr>
+          <tr><td>Team</td><td>$20 / user / mo</td><td>Per-seat org plan with SSO, audit logs, pooled Inference Provider credits, more storage.</td></tr>
+          <tr><td>Enterprise</td><td>$50 / user / mo</td><td>SSO/SCIM, audit logs, SLA-backed support, data residency, up to 50 ZeroGPU Spaces per org, SOC 2.</td></tr>
+          <tr><td>Inference Endpoints</td><td>Metered</td><td>Dedicated, autoscaling managed GPU deployment with scale-to-zero and per-minute billing. vLLM is the default engine; SGLang recommended for RAG. AWS US/EU regions.</td></tr>
+          <tr><td>Inference Providers</td><td>Pay-as-you-go</td><td>OpenAI-compatible serverless gateway (successor to the legacy Inference API) routing to Together, SambaNova, Fireworks, Cerebras, Groq, Replicate, Cohere, DeepInfra, Featherless and others through one HF token at pass-through rates. In-house HF Inference now focuses on CPU tasks (embeddings, classification, smaller LLMs).</td></tr>
+          <tr><td>Spaces hardware</td><td>$0.40–$23.50 / hr</td><td>Free CPU basic (2 vCPU / 16GB) and ZeroGPU (dynamically allocated H200 slices); paid GPUs from T4 to 8× L40S.</td></tr>
+          <tr><td>AutoTrain</td><td>Compute only</td><td>No-code training and fine-tuning for LLMs, text, image, and tabular tasks.</td></tr>
+          <tr><td>Storage</td><td>$5–$100 / mo</td><td>Persistent Spaces storage; additional Hub storage roughly $8–$18 per TB per month.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Leaderboards and evaluation</h3>
+      <p>The influential Open LLM Leaderboard was retired in March 2025 after evaluating 13K+ models over two years. HF's farewell note explained that as capabilities shift toward reasoning and assistants, benchmarks need to follow, and that the board risked encouraging people to optimize for irrelevant directions. HF still hosts hundreds of community leaderboards; the community now watches successors such as LMArena and Artificial Analysis. HF's own <code>lighteval</code> library powers reproducible evaluation.</p>
+
+      <h3>Strategic developments, 2025–2026</h3>
+      <div class="callout">
+        <h4>NVIDIA acquisition (announced September 3, 2026)</h4>
+        <p>NVIDIA agreed to acquire Hugging Face for exactly $12,930,300,000 — about $11.9B cash to shareholders plus up to $1B in employee equity retention, per the SEC 8-K and CNBC/Yahoo reporting. The definitive agreement was signed September 2 and is expected to close in the first half of 2027, subject to regulatory approval. HF operates independently until then.</p>
+        <p>Both parties publicly committed to keeping the platform open, independent, and compute-agnostic. Huang stated that developers will choose their own models, frameworks, clouds, inference providers, and computing platforms, and that NVIDIA compute will not be required to build on or deploy through Hugging Face.</p>
+        <p>Reportedly, HF had rejected a ~$500M NVIDIA minority investment in late 2025 (at a ~$7B valuation) to preserve independence. Delangue told CNBC he approached Huang during the summer after concluding that open-source AI was at a turning point and needed more resources, scale, and visibility.</p>
+      </div>
+      <ul>
+        <li><strong>Pollen Robotics acquisition (April 2025)</strong> — HF's fifth acquisition (after Gradio and XetHub, among others), bringing the Reachy 2 humanoid and expanding the LeRobot open-robotics push led by ex-Tesla engineer Remi Cadène. HF now sells open-source robots such as Reachy Mini and the $399 Microduck biped.</li>
+        <li><strong>Cloud and hardware partnerships</strong> with AWS, Azure, Google Cloud, and NVIDIA continue (NVIDIA's GR00T humanoid foundation models chose HF as preferred platform).</li>
+      </ul>
+    </section>
+
+    <section id="transformers">
+      <h2>2. The Transformers library</h2>
+      <p>Transformers is the model-definition framework for state-of-the-art ML across text, vision, audio, and multimodal — for both inference and training. It solves the fragmentation problem by providing one consistent API to thousands of architectures so you never reimplement a model.</p>
+
+      <h3>Framework support</h3>
+      <p>As of <mark>v5 (December 1, 2025), Transformers is PyTorch-only</mark>. TensorFlow and Flax/JAX support were sunset; HF works with JAX-ecosystem partners like MaxText for interoperability instead. This is the single most important fact when reading older tutorials.</p>
+
+      <h3>Core abstractions</h3>
+      <ul>
+        <li><strong><code>pipeline()</code></strong> — highest-level API; one line to run a task, e.g. <code>pipeline("sentiment-analysis")</code> or <code>pipeline("automatic-speech-recognition")</code>.</li>
+        <li><strong>Auto classes</strong> — <code>AutoModel</code>, <code>AutoModelForCausalLM</code>, <code>AutoTokenizer</code>, <code>AutoProcessor</code>, <code>AutoImageProcessor</code> load the right class from a checkpoint name.</li>
+        <li><strong><code>Trainer</code> / <code>TrainingArguments</code></strong> — a full training loop with logging, checkpointing, evaluation, and distributed support.</li>
+        <li><strong>Generation utilities</strong> — <code>model.generate()</code> with decoding strategies, plus native cache classes (including Mamba/hybrid caches in v5).</li>
+        <li><strong>Chat templates</strong> — Jinja templates attached to tokenizers standardize how chat messages are formatted per model.</li>
+        <li><strong>Quantization</strong> — first-class in v5 via a dynamic weight-loading API, with bitsandbytes, TorchAO and others; combinable with MoE and tensor parallelism.</li>
+        <li><strong>Agents</strong> — the old <code>transformers.agents</code> was deprecated in favor of the standalone smolagents library.</li>
+      </ul>
+
+      <h3>What changed in v5 and where it is heading</h3>
+      <p>Single-file tokenization (dropping the fast/slow split, Rust <code>tokenizers</code> backend by default), a unified <code>AttentionInterface</code>, auto-loading of optimized <code>kernels</code>, continuous batching and paged attention, <code>transformers serve</code>, deep interoperability with vLLM, SGLang, llama.cpp, MLX and ExecuTorch, better pretraining-at-scale support (torchtitan, Megatron, nanotron), and weekly minor releases. The overarching theme is interoperability.</p>
+
+      <h3>Typical workflow</h3>
+<pre><code>from transformers import pipeline
+
+pipe = pipeline("text-generation", model="Qwen/Qwen3-...")  # load pretrained
+pipe("Explain diffusion models simply.")                    # run inference
+
+# fine-tune with Trainer or TRL, then publish:
+model.push_to_hub("your-username/your-model")</code></pre>
+    </section>
+
+    <section id="libraries">
+      <h2>3. The library ecosystem</h2>
+      <p>Each library solves a specific stage of the ML lifecycle. The chips mark which are core (you will use them in almost every project) versus specialized.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Library</th><th>Category</th><th>What it does and when to use it</th></tr></thead>
+        <tbody>
+          <tr><td>Transformers</td><td><span class="chip core">Core</span></td><td>Load, train, and run 400+ model architectures across text, vision, audio, multimodal. The default entry point.</td></tr>
+          <tr><td>Datasets</td><td><span class="chip core">Core</span></td><td>Load, stream, and process datasets from the Hub with a memory-mapped, Pandas-like API.</td></tr>
+          <tr><td>Tokenizers</td><td><span class="chip core">Core</span></td><td>Fast Rust tokenization; train custom tokenizers. Underpins Transformers.</td></tr>
+          <tr><td>huggingface_hub</td><td><span class="chip core">Core</span></td><td>Python client and <code>hf</code> CLI to download/upload repos, manage the cache, and call inference. The plumbing for everything.</td></tr>
+          <tr><td>Accelerate</td><td><span class="chip">Training</span></td><td>Run the same PyTorch code on CPU, multi-GPU, TPU, or Apple Silicon with mixed precision, no boilerplate.</td></tr>
+          <tr><td>PEFT</td><td><span class="chip">Training</span></td><td>Parameter-efficient fine-tuning (LoRA, QLoRA, prompt tuning) — train large models on consumer GPUs with tiny adapter files.</td></tr>
+          <tr><td>TRL</td><td><span class="chip">Training</span></td><td>Post-training with SFT, DPO, PPO, GRPO and other RL methods. The go-to for aligning and instruction-tuning LLMs.</td></tr>
+          <tr><td>Diffusers</td><td><span class="chip">Generative</span></td><td>State-of-the-art diffusion models for image, video, and audio generation and training.</td></tr>
+          <tr><td>safetensors</td><td><span class="chip">Infra</span></td><td>Safe, fast, zero-copy tensor serialization; the default weight format (replaces pickle).</td></tr>
+          <tr><td>Optimum</td><td><span class="chip">Deployment</span></td><td>Hardware-optimized inference and training (ONNX Runtime, OpenVINO, TensorRT; variants for AWS Trainium/Inferentia, Google TPU, Intel, ExecuTorch).</td></tr>
+          <tr><td>Gradio</td><td><span class="chip">Apps</span></td><td>Build ML web demos in a few lines of Python; the primary Spaces SDK. HF-owned.</td></tr>
+          <tr><td>smolagents</td><td><span class="chip">Agents</span></td><td>Minimalist (~1,000-line) agent library with first-class code agents; successor to <code>transformers.agents</code>.</td></tr>
+          <tr><td>Sentence Transformers</td><td><span class="chip">Embeddings</span></td><td>Sentence and text embeddings for semantic search, RAG, and clustering. Maintained by HF.</td></tr>
+          <tr><td>TEI</td><td><span class="chip">Serving</span></td><td>Text Embeddings Inference: high-performance serving of embedding and reranker models.</td></tr>
+          <tr><td>TGI</td><td><span class="chip">Serving</span></td><td>Text Generation Inference LLM server. In maintenance mode since Dec 2025, repo archived Mar 2026 — use vLLM or SGLang for new work.</td></tr>
+          <tr><td>timm</td><td><span class="chip">Vision</span></td><td>PyTorch image models: a huge collection of vision backbones and training utilities.</td></tr>
+          <tr><td>Evaluate</td><td><span class="chip">Evaluation</span></td><td>Standardized metrics for models and datasets.</td></tr>
+          <tr><td>lighteval</td><td><span class="chip">Evaluation</span></td><td>All-in-one LLM evaluation toolkit across backends; powered the Open LLM Leaderboard.</td></tr>
+          <tr><td>nanotron / picotron</td><td><span class="chip">Pretraining</span></td><td>Minimalist 3D/4D-parallelism LLM pretraining; picotron is the educational single-file version. Advanced.</td></tr>
+          <tr><td>Datatrove</td><td><span class="chip">Data</span></td><td>Web-scale data processing and filtering pipelines for pretraining corpora. Advanced.</td></tr>
+          <tr><td>transformers.js</td><td><span class="chip">Edge</span></td><td>Run Transformers models in the browser (WebGPU/WASM) with no server.</td></tr>
+          <tr><td>Candle</td><td><span class="chip">Rust</span></td><td>Minimalist Rust ML framework; loads safetensors directly; good for small binaries, serverless, and WASM.</td></tr>
+          <tr><td>Kernels</td><td><span class="chip">Infra</span></td><td>Downloadable optimized compute kernels auto-used by Transformers when the hardware permits.</td></tr>
+          <tr><td>LeRobot</td><td><span class="chip">Robotics</span></td><td>Open-source robotics: datasets, policies, training, and hardware interfaces.</td></tr>
+          <tr><td>AutoTrain</td><td><span class="chip">No-code</span></td><td>Train and fine-tune models across modalities without code.</td></tr>
+          <tr><td>Trackio</td><td><span class="chip">MLOps</span></td><td>Lightweight, local-first experiment tracking.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <h3>How they fit together</h3>
+      <p>A typical project runs: <code>datasets</code> to load data → <code>transformers</code> (with <code>tokenizers</code>) to load a model → PEFT/TRL plus Accelerate to fine-tune efficiently → safetensors to save → <code>huggingface_hub</code> to push to the Hub → a Gradio Space to demo → Optimum, vLLM, or TEI for production serving → lighteval or Evaluate to benchmark.</p>
+    </section>
+
+    <section id="learning">
+      <h2>4. Using Hugging Face for experiments and learning</h2>
+
+      <h3>Free courses at hf.co/learn</h3>
+      <p>All are free; most issue certificates.</p>
+      <ul>
+        <li><strong>LLM Course</strong> (the former NLP Course, renamed April 2025) — the broadest foundation: transformers, datasets, tokenizers, fine-tuning, building reasoning models. The best starting point.</li>
+        <li><strong>Agents Course</strong> — build agents with smolagents, LlamaIndex, and LangGraph; capstone plus leaderboard; 100K+ learners.</li>
+        <li><strong>MCP Course</strong> — Model Context Protocol from fundamentals to projects.</li>
+        <li><strong>a smol course</strong> — post-training AI models.</li>
+        <li><strong>Deep RL Course</strong> — deep reinforcement learning with Stable-Baselines3 and CleanRL.</li>
+        <li><strong>Audio Course</strong>, <strong>Community Computer Vision Course</strong>, <strong>Robotics Course</strong> (LeRobot), and the <strong>Open-Source AI Cookbook</strong> of recipe notebooks.</li>
+      </ul>
+      <p>Also: the Hugging Face blog (announcements and deep dives), extensive docs, the Ultra-Scale Playbook on distributed training, community events, Discord, and the forums.</p>
+
+      <h3>Starter projects, in order</h3>
+      <ol>
+        <li>Run <code>pipeline()</code> inference on text, image, and audio in Colab.</li>
+        <li>Load a dataset with <code>datasets</code> and fine-tune a small model (a SmolLM or DistilBERT) with <code>Trainer</code> or TRL plus PEFT/LoRA.</li>
+        <li>Push the model and a model card to the Hub.</li>
+        <li>Build a Gradio Space that demos it (free CPU or ZeroGPU).</li>
+        <li>Publish a dataset and write a community blog post on the Hub.</li>
+        <li>Enter a community challenge, such as the Agents Course leaderboard.</li>
+      </ol>
+
+      <h3>Free compute</h3>
+      <p>Google Colab and Kaggle (free GPUs/TPUs), free CPU Spaces, and ZeroGPU (free H200 slices with daily quotas). For local work, use <code>huggingface_hub</code> to download models and run them via Transformers, llama.cpp, Ollama, or LM Studio; GGUF files load directly in Transformers and vice versa.</p>
+    </section>
+
+    <section id="career">
+      <h2>5. Career growth</h2>
+      <h3>Market value</h3>
+      <p>Hugging Face skills are effectively table stakes for ML engineer, AI engineer, applied scientist, and research roles — Transformers is the default way practitioners load models, and companies actively hire for transformer and fine-tuning experience. A public HF profile (models, datasets, Spaces, community posts) works as a live portfolio: recruiters value a working demo link far more than a notebook, because it shows you can take a model from your laptop to serving requests.</p>
+
+      <h3>Building the portfolio</h3>
+      <ul>
+        <li>Earn HF course certificates (Agents, MCP, Deep RL, Audio, and others).</li>
+        <li>Contribute to open-source HF repos — Transformers has a low-friction modular model-contribution process, and issues and PRs are visible signal.</li>
+        <li>Write community blog posts on the Hub and publish polished models and datasets with strong cards.</li>
+        <li>Build Spaces as portfolio centerpieces.</li>
+      </ul>
+
+      <h3>Working at Hugging Face</h3>
+      <p>HF hires remote-first across engineering, ML, research, and ops (careers via apply.workable.com/huggingface). Compensation is intentionally below frontier-lab levels, trading cash for open-source impact, ownership, and remote culture (2026 reporting: ML engineer base around $134K; SWE total comp around $183K, with senior packages higher). HF runs fellowship and community programs and open-science collaborations (BigScience/BLOOM historically). Post-acquisition, headcount, compensation structure, and hiring may evolve under NVIDIA.</p>
+    </section>
+
+    <section id="alternatives">
+      <h2>6. How Hugging Face compares to alternatives</h2>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Alternative</th><th>What it is</th><th>Where HF fits</th></tr></thead>
+        <tbody>
+          <tr><td>PyTorch Hub / TF Hub</td><td>Framework-specific model catalogs.</td><td>Far smaller, no datasets, Spaces, or collaboration layer. HF is the superset.</td></tr>
+          <tr><td>Kaggle</td><td>Competitions, notebooks, free compute, a model/dataset catalog.</td><td>Weaker as a production registry and library ecosystem. Complementary: Kaggle compute plus HF models.</td></tr>
+          <tr><td>Replicate</td><td>Polished hosted inference API, pay-per-use.</td><td>Great for shipping a model behind an API; not a training ecosystem or community hub.</td></tr>
+          <tr><td>Ollama / LM Studio</td><td>Local runtimes (CLI/OSS and GUI respectively).</td><td>Complementary layers: find a model on HF, run it locally with these.</td></tr>
+          <tr><td>Cloud model gardens</td><td>Bedrock/SageMaker JumpStart, Azure AI Foundry, Vertex Model Garden.</td><td>Managed and enterprise-integrated but single-cloud and less open. HF is the neutral substrate they pull from.</td></tr>
+          <tr><td>Closed-API vendors</td><td>OpenAI, Anthropic, Google Gemini.</td><td>Best frontier capability via API, but no open weights, portability, or fine-tuning control. HF is for open, customizable, self-hostable models.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Bottom line:</strong> HF is the connective tissue of open AI — the registry, library ecosystem, and community layer nearly everything else plugs into. Its moat is the combination of Hub, libraries, community, and free education, which no single alternative matches.</p>
+    </section>
+
+    <section id="roadmap">
+      <h2>7. Suggested learning roadmap</h2>
+      <ol class="roadmap">
+        <li>
+          <h3>Beginner <span class="stage-when">· weeks 1–4</span></h3>
+          <ul>
+            <li>Create an HF account and profile; browse Models, Datasets, and Spaces.</li>
+            <li>Start the LLM Course (chapters 1–4).</li>
+            <li>Run <code>pipeline()</code> inference in Colab across text, vision, and audio.</li>
+            <li>Use <code>datasets</code> to load and explore a dataset.</li>
+            <li>Build a first Gradio Space (free CPU) wrapping a pretrained model.</li>
+          </ul>
+          <div class="bench"><strong>Ready to advance when:</strong> you can load any model and get inference output confidently.</div>
+        </li>
+        <li>
+          <h3>Intermediate <span class="stage-when">· weeks 5–12</span></h3>
+          <ul>
+            <li>Finish the LLM Course; take one specialist track (Agents, Audio, or CV).</li>
+            <li>Fine-tune a small model with <code>Trainer</code>, then with TRL plus PEFT/LoRA (QLoRA on a 16GB GPU).</li>
+            <li>Publish the model with a proper model card; publish a dataset.</li>
+            <li>Learn Accelerate for multi-GPU; try AutoTrain for a no-code baseline.</li>
+            <li>Deploy via Inference Endpoints or a ZeroGPU Space; try Inference Providers for serverless.</li>
+          </ul>
+          <div class="bench"><strong>Ready to advance when:</strong> you have a fine-tuned model on the Hub with a live demo and evaluation numbers.</div>
+        </li>
+        <li>
+          <h3>Advanced <span class="stage-when">· month 4 onward</span></h3>
+          <ul>
+            <li>Build agents with smolagents (plus the MCP Course); ship an agent Space.</li>
+            <li>Optimize serving with vLLM/SGLang, Optimum, quantization, and TEI for embeddings and RAG.</li>
+            <li>Contribute a model or fix to Transformers via the modular flow; write a Hub blog post.</li>
+            <li>Go deep where needed: nanotron/Datatrove (pretraining at scale), LeRobot (robotics), Candle/transformers.js (Rust and edge), lighteval (rigorous evaluation).</li>
+          </ul>
+          <div class="bench"><strong>Ready to advance when:</strong> you have a merged open-source contribution and/or a production-grade Space with an optimized serving stack.</div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="recommendations">
+      <h2>Recommendations</h2>
+      <ol>
+        <li><strong>This week:</strong> create an HF account, run three <code>pipeline()</code> tasks in Colab, and deploy one Gradio Space. This builds momentum and starts a public portfolio.</li>
+        <li><strong>This month:</strong> complete the LLM Course core chapters and fine-tune one small model with PEFT/LoRA, pushing it to the Hub with a strong model card. Pin it on your profile.</li>
+        <li><strong>This quarter:</strong> pick one specialist track (Agents is the highest-demand in 2026), earn the certificate, ship a portfolio-grade Space plus a Hub blog post, then make one open-source contribution to an HF repo.</li>
+        <li><strong>Pin the version reality:</strong> learn on Transformers v5 and PyTorch; skip TensorFlow-based HF tutorials, use vLLM/SGLang (not TGI) for new serving projects, and smolagents (not <code>transformers.agents</code>).</li>
+        <li><strong>Cost discipline:</strong> stay on the free tier plus Colab, Kaggle, and ZeroGPU while learning; buy PRO ($9/mo) only when you need more ZeroGPU quota, private storage, or GPU Spaces. Budget compute separately from the seat fee.</li>
+      </ol>
+      <div class="callout">
+        <h4>Thresholds that change the plan</h4>
+        <p>If the NVIDIA deal's openness commitments visibly erode after close (NVIDIA-only features, degraded non-NVIDIA hardware support), diversify toward neutral alternatives and keep exports (GGUF, safetensors) portable. If you move to production at scale (more than roughly 5M tokens a month), migrate from serverless Inference Providers to Inference Endpoints or self-hosted vLLM.</p>
+      </div>
+    </section>
+
+    <section id="caveats">
+      <h2>Caveats</h2>
+      <ul>
+        <li><strong>Fast-moving area.</strong> Transformers ships weekly; pricing, ZeroGPU quotas, and Inference Providers change often. Verify figures at huggingface.co/pricing and the docs before relying on them.</li>
+        <li><strong>The NVIDIA acquisition is pending, not closed</strong> (expected H1 2027, subject to regulatory approval). Openness commitments are public statements not yet tested post-close, and regulators may impose conditions. The ~$500M rejected-investment detail rests on Financial Times reporting and was not officially confirmed by Hugging Face.</li>
+        <li><strong>Some pricing details</strong> came from third-party aggregators; exact tier features (especially ZeroGPU minutes and Inference Provider credits) vary by report and should be confirmed on the official pricing page.</li>
+        <li><strong>Some ecosystem details</strong> (exact version numbers, star counts, the Endpoints default engine) shift over time; the direction of travel — PyTorch-only, vLLM/SGLang over TGI, quantization-first — is well established even where numbers drift.</li>
+        <li>Primary HF, NVIDIA, and SEC sources were prioritized; a few secondary sources were used for corroboration.</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  Hugging Face in 2026 — research report compiled September 12, 2026. Details subject to change; verify time-sensitive figures against official sources.
+</footer>
+
+</body>
+</html>
